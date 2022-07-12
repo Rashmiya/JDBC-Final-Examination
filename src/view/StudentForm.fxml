@@ -101,16 +101,16 @@
         </HBox>
         <Separator layoutX="24.0" layoutY="80.0" prefHeight="8.0" prefWidth="1027.0">
             <effect>
-                <DropShadow color="#3337f8" />
+                <DropShadow color="#b95629" height="53.61" radius="44.8375" spread="0.17" width="127.74" />
             </effect>
         </Separator>
-        <JFXTextField fx:id="txtSearch" layoutX="139.0" layoutY="313.0" onKeyPressed="#SearchStudent" prefHeight="29.0" prefWidth="294.0" promptText="Search Student">
+        <JFXTextField fx:id="txtSearch" focusColor="#45291c" layoutX="139.0" layoutY="313.0" onKeyPressed="#SearchStudent" prefHeight="29.0" prefWidth="294.0" promptText="Search Student">
             <font>
                 <Font size="13.0" />
             </font>
         </JFXTextField>
-        <FontAwesomeIconView fill="#0a62ab" glyphName="SEARCH" layoutX="103.0" layoutY="341.0" size="22" />
-        <FontAwesomeIconView fill="#388bd0" glyphName="REFRESH" layoutX="447.0" layoutY="342.0" onMouseClicked="#btnRefresh" size="25">
+        <FontAwesomeIconView fill="#45291c" glyphName="SEARCH" layoutX="103.0" layoutY="341.0" size="22" />
+        <FontAwesomeIconView fill="#45291c" glyphName="REFRESH" layoutX="447.0" layoutY="342.0" onMouseClicked="#btnRefresh" size="25">
             <cursor>
                 <Cursor fx:constant="HAND" />
             </cursor>

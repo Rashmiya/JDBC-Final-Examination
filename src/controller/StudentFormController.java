@@ -24,6 +24,7 @@ import util.CrudUtil;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Optional;
 
 public class StudentFormController {
     public Button btnDelete;
@@ -47,6 +48,33 @@ public class StudentFormController {
     public TextField txtNic;
 
     public void initialize(){
+        colModify.setCellValueFactory((param) -> {
+            FontAwesomeIconView deleteIcon = new FontAwesomeIconView(FontAwesomeIcon.TRASH);
+
+            deleteIcon.setStyle(
+                    "-fx-cursor:hand;"
+                            +"-glyph-size:25px;"
+                            +"-fx-fill:#ff1744;"
+            );
+            deleteIcon.setOnMouseClicked((MouseEvent event)-> {
+                        btnDelete.setVisible(true);
+                        btnSave.setDisable(true);
+                        btnUpdate.setDisable(true);
+
+                        Student S =  tblStudent.getSelectionModel().getSelectedItem();
+                        txtID.setText(S.getStudent_ID());
+                        txtName.setText(S.getStudent_Name());
+                        txtEmail.setText(S.getEmail());
+                        txtContact.setText(S.getContact());
+                        txtAddress.setText(S.getAddress());
+                        txtNic.setText(S.getNic());
+                    }
+            );
+           /* HBox.setMargin(editIcon, new Insets(0,0,0,10));
+*/
+            return new ReadOnlyObjectWrapper(new HBox(20, deleteIcon));
+        });
+
         colID.setCellValueFactory(new PropertyValueFactory<>("student_ID"));
         colName.setCellValueFactory(new PropertyValueFactory<>("student_Name"));
         colEmail.setCellValueFactory(new PropertyValueFactory<>("email"));
@@ -85,6 +113,34 @@ public class StudentFormController {
     }
 
     public void DeleteOnAction(ActionEvent actionEvent) {
+        try {
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Confirmation Dialog");
+            alert.setHeaderText(null);
+            alert.setContentText("Are you sure to Delete?");
+            Optional<ButtonType> action = alert.showAndWait();
+
+            if(action.get() == ButtonType.OK) {
+                boolean isDeleted = CrudUtil.execute("DELETE FROM student WHERE student_ID = ?", txtID.getText());
+                if (isDeleted) {
+                    Notifications notify = Notifications.create();
+                    notify.title("Student Deleted !");
+                    notify.text(" You Successfully Deleted a Student.");
+                    notify.graphic(null);
+                    notify.hideAfter(Duration.seconds(7));
+                    notify.position(Pos.BOTTOM_RIGHT);
+                    notify.showConfirm();
+
+                    loadAllStudents();
+
+                } else {
+                    new Alert(Alert.AlertType.ERROR, "Something Went Wrong ! , Please Try Again...");
+                }
+            }
+        }catch (SQLException | ClassNotFoundException e){
+            e.printStackTrace();
+            new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
+        }
     }
 
     public void textFields_Key_Released(KeyEvent keyEvent) {
