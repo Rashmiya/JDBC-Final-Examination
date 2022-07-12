@@ -1,0 +1,133 @@
+DROP DATABASE IF EXISTS ijse;
+CREATE DATABASE IF NOT EXISTS ijse;
+
+USE ijse;
+
+DROP TABLE IF EXISTS student;
+CREATE TABLE IF NOT EXISTS student(
+	student_ID VARCHAR(45),
+	student_name VARCHAR(45) NOT NULL,
+	email TEXT,
+	contact VARCHAR(20)NOT NULL,
+	address TEXT NOT NULL,
+	nic VARCHAR(45) UNIQUE,
+	CONSTRAINT PRIMARY KEY(student_ID)
+);
+
+DROP TABLE IF EXISTS teacher;
+CREATE TABLE IF NOT EXISTS teacher(
+	teacher_ID VARCHAR(45),
+	name VARCHAR(45) NOT NULL,
+	nic VARCHAR(45) UNIQUE,
+	contact VARCHAR(45)NOT NULL,
+	address TEXT NOT NULL,
+	CONSTRAINT PRIMARY KEY(teacher_ID)
+);
+
+DROP TABLE IF EXISTS subject;
+CREATE TABLE IF NOT EXISTS subject(
+	subject_ID VARCHAR(45),
+	subject_name VARCHAR(45),
+	credit DOUBLE,
+	teacher_ID VARCHAR(45),
+	CONSTRAINT PRIMARY KEY(subject_ID),
+	CONSTRAINT FOREIGN KEY(teacher_ID) REFERENCES teacher(teacher_ID) on Delete Cascade on Update Cascade
+);
+
+DROP TABLE IF EXISTS course;
+CREATE TABLE IF NOT EXISTS course(
+	course_ID VARCHAR(45),
+	course_name VARCHAR(45) NOT NULL,
+	cost DOUBLE NOT NULL,
+	duration VARCHAR(45) NOT NULL,
+	subject_ID VARCHAR(45) NOT NULL,
+	CONSTRAINT PRIMARY KEY(course_ID),
+	CONSTRAINT FOREIGN KEY(subject_ID) REFERENCES subject(subject_ID) on Delete Cascade on Update Cascade
+);
+
+DROP TABLE IF EXISTS intake;
+CREATE TABLE IF NOT EXISTS intake(
+	intake_ID VARCHAR(45),
+	start_date DATE NOT NULL,
+	description VARCHAR(45),
+	course_ID VARCHAR(45) NOT NULL,
+	CONSTRAINT PRIMARY KEY(intake_ID),
+	CONSTRAINT FOREIGN KEY(course_ID) REFERENCES course(course_ID) on Delete Cascade on Update Cascade
+);
+
+DROP TABLE IF EXISTS registration;
+CREATE TABLE IF NOT EXISTS registration(
+	registration_ID VARCHAR(45),
+	reg_date DATE NOT NULL,
+	student_ID VARCHAR(45) NOT NULL,
+	intake_ID VARCHAR(45) NOT NULL,
+	CONSTRAINT PRIMARY KEY(registration_ID),
+	CONSTRAINT FOREIGN KEY(student_ID) REFERENCES student(student_ID) on Delete Cascade on Update Cascade,
+	CONSTRAINT FOREIGN KEY(intake_ID) REFERENCES intake(intake_ID) on Delete Cascade on Update Cascade
+);
+
+DROP TABLE IF EXISTS payment;
+CREATE TABLE IF NOT EXISTS payment(
+	payment_ID VARCHAR(45),
+	date DATE NOT NULL,
+	cost DOUBLE NOT NULL,
+	registration_ID VARCHAR(45) NOT NULL,
+	CONSTRAINT PRIMARY KEY(payment_ID),
+	CONSTRAINT FOREIGN KEY(registration_ID) REFERENCES registration(registration_ID) on Delete Cascade on Update Cascade
+);
+
+INSERT INTO student VALUES('S001' , 'Rashmiya' , 'rashmiya99@gmail.com' , '075-7273884' , 'Padukka' , '996451799V');
+INSERT INTO student VALUES('S002' , 'Nipun' , 'nipun87@gmail.com' , '077-2343445' , 'Nugegoda' , '457733658V');
+INSERT INTO student VALUES('S003' , 'Rafeek' , 'rafeek12@gmail.com' , '077-6555678' , 'Colombo' , '878865768V');
+INSERT INTO student VALUES('S004' , 'Kamal' , 'kamal99@gmail.com' , '078-3387880' , 'Poogoda' , '123233453V');
+INSERT INTO student VALUES('S005' , 'Sanjana' , 'sanjanadilrukshi@gmail.com' , '075-5455990' , 'Mawanella' , '997645123V');
+
+INSERT INTO teacher VALUES('T001' , 'Hasika' , '678799789V' , '078-7888657' , 'Panadura');
+INSERT INTO teacher VALUES('T002' , 'Yasindu' , '345476556V' , '078-4534678' , 'Nugegoda');
+INSERT INTO teacher VALUES('T003' , 'Danuja' , '122123334V' , '075-2333544' , 'Gampaha');
+INSERT INTO teacher VALUES('T004' , 'Sanu' , '987888670V' , '076-7877566' , 'Millawa');
+INSERT INTO teacher VALUES('T005' , 'Nimal' , '453444654V' , '076-8988890' , 'Colombo');
+
+INSERT INTO subject VALUES('SUB1' , 'Java' , '4' , 'T005');
+INSERT INTO subject VALUES('SUB2' , 'JDBC' , '3' , 'T001');
+INSERT INTO subject VALUES('SUB3' , 'OOP' , '4' , 'T004');
+INSERT INTO subject VALUES('SUB4' , 'DBMS' , '4' , 'T003');
+INSERT INTO subject VALUES('SUB5' , 'ORM' , '3' , 'T002');
+
+INSERT INTO course VALUES('C001' , 'GDSE' , 320000 , '24 months' , 'SUB1');
+INSERT INTO course VALUES('C002' , 'WEB' , 400000 , '12 months' , 'SUB5');
+INSERT INTO course VALUES('C003' , 'SSE' , 300000 , '30 months' , 'SUB1');
+INSERT INTO course VALUES('C004' , 'Mobile App' , 320000 , '6 months' , 'SUB4');
+INSERT INTO course VALUES('C005' , 'Machine Learning' , 450000 , '8 months' , 'SUB3');
+
+INSERT INTO intake VALUES('I001' , '2022-2-15' , '2022 first intake' , 'C001');
+INSERT INTO intake VALUES('I002' , '2022-6-20' , '2022 second intake' , 'C001');
+INSERT INTO intake VALUES('I003' , '2021-4-15' , '2021 first intake' , 'C002');
+INSERT INTO intake VALUES('I004' , '2021-8-12' , '2021 second intake' , 'C003');
+INSERT INTO intake VALUES('I005' , '2020-2-16' , '2020 intake' , 'C004');
+
+
+INSERT INTO registration VALUES('R001' , '2022-1-15' , 'S001', 'I001');
+INSERT INTO registration VALUES('R002' , '2022-5-20' , 'S002', 'I002');
+INSERT INTO registration VALUES('R003' , '2022-3-12' , 'S003', 'I003');
+INSERT INTO registration VALUES('R004' , '2022-6-15' , 'S004', 'I004');
+INSERT INTO registration VALUES('R005' , '2022-1-12' , 'S005', 'I005');
+
+INSERT INTO payment VALUES('P001' , '2022-2-10', '320000' , 'R001');
+INSERT INTO payment VALUES('P002' , '2022-6-10', '320000' , 'R002');
+INSERT INTO payment VALUES('P003' , '2022-4-10', '320000' , 'R003');
+INSERT INTO payment VALUES('P004' , '2022-8-6', '320000' , 'R004');
+INSERT INTO payment VALUES('P005' , '2022-2-8', '320000' , 'R005');
+
+SHOW TABLES;
+DESC student;
+DESC teacher;
+
+
+
+
+
+
+
+
+

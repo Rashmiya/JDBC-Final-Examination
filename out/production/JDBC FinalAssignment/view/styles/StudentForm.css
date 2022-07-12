@@ -1,0 +1,40 @@
+
+.btn{
+    -fx-background-color: #1C7ED6;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-font-size: 13px;
+}
+
+.textPane{
+    -fx-background-color: white;
+    -fx-border-color: rgba(76, 73, 73, 0.83);
+    -fx-border-radius: 8px;
+}
+.textField{
+    -fx-background-color: white;
+    -fx-prompt-text-fill: #726d6d;
+}
+.textLabel{
+    -fx-background-color: white;
+    -fx-padding: 0 5px 0px 5px;
+    -fx-font-weight: bold;
+    -fx-text-fill: rgba(76, 73, 73, 0.83);
+    -fx-font-size: 13;
+}
+.comboBox{
+    -fx-background-color: white;
+    -fx-padding: 0 5px 0px 5px;
+    -fx-text-fill: rgba(76, 73, 73, 0.83);
+    -fx-font-size: 13;
+    -fx-border-color:rgba(76, 73, 73, 0.83);
+    -fx-border-radius:0 5px 5px 5px;
+}
+.StudentForm {
+    -fx-background-color: #ffffff;
+    -fx-background-radius: 0px 50px 50px 50px;
+}
+.tblColumn {
+    /*-fx-background-color:#F4F3F8;*/
+    -fx-alignment: center;
+}
