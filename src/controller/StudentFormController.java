@@ -9,11 +9,12 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import model.Student;
 
 public class StudentFormController {
     public Button btnDelete;
     public AnchorPane StudentForm;
-    public TableView tblStudent;
+    public TableView<Student> tblStudent;
     public TableColumn colID;
     public TableColumn colName;
     public TableColumn colEmail;
