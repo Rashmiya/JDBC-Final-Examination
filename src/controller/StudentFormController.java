@@ -8,16 +8,16 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.geometry.Pos;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
+import javafx.util.Duration;
 import model.Student;
+import org.controlsfx.control.Notifications;
 import util.CrudUtil;
 
 import java.sql.ResultSet;
@@ -95,5 +95,27 @@ public class StudentFormController {
     }
 
     public void btnSaveOnAction(ActionEvent actionEvent) {
+        Student student = new Student(
+                txtID.getText(),txtName.getText(),txtEmail.getText(),txtContact.getText(),txtAddress.getText(),txtNic.getText()
+        );
+        try{
+            boolean effectedRowCount = CrudUtil.execute("INSERT INTO student VALUES (?,?,?,?,?,?)",
+                    student.getStudent_ID(),student.getStudent_Name(), student.getEmail(), student.getContact(),student.getAddress(),student.getNic()
+            );
+            if(effectedRowCount){
+                Notifications notify = Notifications.create();
+                notify.title("Student Added !");
+                notify.text(" You Successfully Added Student.");
+                notify.graphic(null);
+                notify.hideAfter(Duration.seconds(7));
+                notify.position(Pos.BOTTOM_RIGHT);
+                notify.showConfirm();
+
+                loadAllStudents();
+            }
+        } catch (ClassNotFoundException | SQLException e) {
+            e.printStackTrace();
+            new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
+        }
     }
 }
