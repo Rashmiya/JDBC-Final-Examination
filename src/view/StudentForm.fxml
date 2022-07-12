@@ -17,7 +17,7 @@
 
 <AnchorPane fx:id="StudentForm" prefHeight="595.0" prefWidth="1074.0" styleClass="StudentForm" stylesheets="@styles/StudentForm.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.StudentFormController">
     <children>
-        <Button fx:id="btnDelete" layoutX="569.0" layoutY="246.0" mnemonicParsing="false" onAction="#DeleteOnAction" prefHeight="42.0" prefWidth="155.0" styleClass="btn" text="Delete Student">
+        <Button fx:id="btnDelete" layoutX="882.0" layoutY="246.0" mnemonicParsing="false" onAction="#DeleteOnAction" prefHeight="42.0" prefWidth="155.0" styleClass="btn" text="Delete Student">
             <cursor>
                 <Cursor fx:constant="HAND" />
             </cursor>
@@ -38,7 +38,7 @@
                 <Font name="Constantia Bold" size="25.0" />
             </font>
         </Label>
-        <Button fx:id="btnSave" layoutX="569.0" layoutY="246.0" mnemonicParsing="false" onAction="#btnSaveOnAction" prefHeight="42.0" prefWidth="155.0" styleClass="btn" text="Save Student">
+        <Button fx:id="btnSave" layoutX="526.0" layoutY="246.0" mnemonicParsing="false" onAction="#btnSaveOnAction" prefHeight="42.0" prefWidth="155.0" styleClass="btn" text="Save Student">
             <cursor>
                 <Cursor fx:constant="HAND" />
             </cursor>
@@ -115,16 +115,11 @@
                 <Cursor fx:constant="HAND" />
             </cursor>
         </FontAwesomeIconView>
-        <Button fx:id="btnUpdate" layoutX="752.0" layoutY="246.0" mnemonicParsing="false" onAction="#UpdateOnAction" prefHeight="42.0" prefWidth="155.0" styleClass="btn" text="Update Student">
+        <Button fx:id="btnUpdate" layoutX="702.0" layoutY="246.0" mnemonicParsing="false" onAction="#UpdateOnAction" prefHeight="42.0" prefWidth="155.0" styleClass="btn" text="Update Student">
             <cursor>
                 <Cursor fx:constant="HAND" />
             </cursor>
         </Button>
-        <Separator layoutX="24.0" layoutY="267.0" prefHeight="8.0" prefWidth="514.0">
-            <effect>
-                <DropShadow color="#3337f8" />
-            </effect>
-        </Separator>
         <HBox layoutX="29.0" layoutY="192.0" prefHeight="42.0" prefWidth="514.0">
             <children>
                 <AnchorPane prefHeight="42.0" prefWidth="213.0" styleClass="textPane">
