@@ -50,6 +50,7 @@ public class StudentFormController {
     public void initialize() {
         btnUpdate.setDisable(true);
         btnDelete.setDisable(true);
+        txtName.requestFocus();
 
         setStudentID();
 
@@ -68,6 +69,7 @@ public class StudentFormController {
             );
             deleteIcon.setOnMouseClicked((MouseEvent event) -> {
                         btnDelete.setVisible(true);
+                        btnDelete.setDisable(false);
                         btnSave.setDisable(true);
                         btnUpdate.setDisable(true);
 
@@ -82,6 +84,10 @@ public class StudentFormController {
             );
 
             editIcon.setOnMouseClicked((MouseEvent event) -> {
+                btnSave.setDisable(true);
+                btnDelete.setDisable(true);
+                btnUpdate.setDisable(false);
+
                 Student s = tblStudent.getSelectionModel().getSelectedItem();
                 txtID.setText(s.getStudent_ID());
                 txtName.setText(s.getStudent_Name());
@@ -145,6 +151,10 @@ public class StudentFormController {
                 notify.showConfirm();
 
                 loadAllStudents();
+                clearFields();
+                btnSave.setDisable(false);
+                btnUpdate.setDisable(true);
+                txtName.requestFocus();
             } else {
                 new Alert(Alert.AlertType.WARNING, "Something went Wrong.Please Try Again !").show();
             }
@@ -176,7 +186,11 @@ public class StudentFormController {
                     notify.showConfirm();
 
                     loadAllStudents();
-
+                    clearFields();
+                    btnSave.setVisible(true);
+                    btnDelete.setDisable(true);
+                    btnSave.setDisable(false);
+                    txtName.requestFocus();
                 } else {
                     new Alert(Alert.AlertType.ERROR, "Something Went Wrong ! , Please Try Again...");
                 }
