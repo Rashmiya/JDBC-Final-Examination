@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.scene.text.Font?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.effect.DropShadow?>
+<AnchorPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="controller.StudentFormController"
+            prefHeight="400.0" prefWidth="600.0">
+    <children>
+        <Button fx:id="btnDelete" layoutX="561.0" layoutY="175.0" mnemonicParsing="false" onAction="#DeleteOnAction" prefHeight="42.0" prefWidth="155.0" styleClass="btn" text="Delete Customer">
+            <cursor>
+                <Cursor fx:constant="HAND" />
+            </cursor>
+        </Button>
+        <TableView fx:id="tblCustomer" layoutX="21.0" layoutY="279.0" prefHeight="306.0" prefWidth="756.0">
+            <columns>
+                <TableColumn fx:id="colCID" prefWidth="100.0" styleClass="tblColumn" text="CId" />
+                <TableColumn fx:id="colName" prefWidth="149.0" styleClass="tblColumn" text="Name" />
+                <TableColumn fx:id="colAddress" prefWidth="265.0" styleClass="tblColumn" text="Address" />
+                <TableColumn fx:id="colContact" prefWidth="139.0" styleClass="tblColumn" text="Contact Number" />
+                <TableColumn fx:id="colModify" prefWidth="102.0" styleClass="tblColumn" />
+            </columns>
+        </TableView>
+        <Label layoutX="29.0" layoutY="19.0" prefHeight="45.0" prefWidth="155.0" text="Customer">
+            <font>
+                <Font name="Constantia Bold" size="25.0" />
+            </font>
+        </Label>
+        <Button fx:id="btnSave" layoutX="561.0" layoutY="175.0" mnemonicParsing="false" onAction="#btnSaveOnAction" prefHeight="42.0" prefWidth="155.0" styleClass="btn" text="Save Customer">
+            <cursor>
+                <Cursor fx:constant="HAND" />
+            </cursor>
+        </Button>
+        <HBox layoutX="29.0" layoutY="119.0" prefHeight="42.0" prefWidth="1027.0">
+            <children>
+                <AnchorPane prefHeight="42.0" prefWidth="213.0" styleClass="textPane">
+                    <children>
+                        <TextField fx:id="txtID" layoutX="13.0" layoutY="8.0" onKeyReleased="#textFields_Key_Released" prefHeight="29.0" prefWidth="178.0" promptText="C001" styleClass="textField">
+                            <font>
+                                <Font size="13.0" />
+                            </font>
+                        </TextField>
+                        <Label layoutX="2.0" layoutY="-9.0" styleClass="textLabel" text="Customer ID" />
+                    </children>
+                    <HBox.margin>
+                        <Insets right="20.0" />
+                    </HBox.margin>
+                </AnchorPane>
+                <AnchorPane prefHeight="42.0" prefWidth="213.0" styleClass="textPane">
+                    <children>
+                        <TextField fx:id="txtName" layoutX="13.0" layoutY="8.0" onKeyReleased="#textFields_Key_Released" prefHeight="29.0" prefWidth="178.0" promptText="Sandaru" styleClass="textField">
+                            <font>
+                                <Font size="13.0" />
+                            </font>
+                        </TextField>
+                        <Label layoutX="2.0" layoutY="-9.0" styleClass="textLabel" text="Customer Name" />
+                    </children>
+                    <HBox.margin>
+                        <Insets right="20.0" />
+                    </HBox.margin>
+                </AnchorPane>
+                <AnchorPane prefHeight="42.0" prefWidth="340.0" styleClass="textPane">
+                    <children>
+                        <TextField fx:id="txtAddress" layoutX="13.0" layoutY="8.0" onKeyReleased="#textFields_Key_Released" prefHeight="29.0" prefWidth="307.0" promptText="150/C,Ingiriya,Padukka" styleClass="textField">
+                            <font>
+                                <Font size="13.0" />
+                            </font>
+                        </TextField>
+                        <Label layoutX="2.0" layoutY="-9.0" styleClass="textLabel" text="Customer Address" />
+                    </children>
+                    <HBox.margin>
+                        <Insets right="20.0" />
+                    </HBox.margin>
+                </AnchorPane>
+                <AnchorPane prefHeight="42.0" prefWidth="200.0" styleClass="textPane">
+                    <children>
+                        <TextField fx:id="txtContact" layoutX="13.0" layoutY="8.0" onKeyReleased="#textFields_Key_Released" prefHeight="29.0" prefWidth="171.0" promptText="076-6929290" styleClass="textField">
+                            <font>
+                                <Font size="13.0" />
+                            </font>
+                        </TextField>
+                        <Label layoutX="2.0" layoutY="-9.0" styleClass="textLabel" text="Contact Number" />
+                    </children>
+                    <HBox.margin>
+                        <Insets right="20.0" />
+                    </HBox.margin>
+                </AnchorPane>
+            </children>
+        </HBox>
+        <Separator layoutX="24.0" layoutY="80.0" prefHeight="8.0" prefWidth="1027.0">
+            <effect>
+                <DropShadow color="#3337f8" />
+            </effect>
+        </Separator>
+        <JFXTextField fx:id="txtSearch" layoutX="75.0" layoutY="226.0" onKeyPressed="#SearchCustomer" prefHeight="29.0" prefWidth="294.0" promptText="Search Customer">
+            <font>
+                <Font size="13.0" />
+            </font>
+        </JFXTextField>
+        <FontAwesomeIconView fill="#0a62ab" glyphName="SEARCH" layoutX="46.0" layoutY="253.0" size="22" />
+        <FontAwesomeIconView fill="#388bd0" glyphName="REFRESH" layoutX="384.0" layoutY="257.0" onMouseClicked="#btnRefresh" size="25">
+            <cursor>
+                <Cursor fx:constant="HAND" />
+            </cursor>
+        </FontAwesomeIconView>
+        <AnchorPane layoutX="794.0" layoutY="213.0" prefHeight="306.0" prefWidth="265.0" styleClass="UpdateForm" stylesheets="@styles/Employee.css">
+            <children>
+                <JFXTextField fx:id="Nametxt" labelFloat="true" layoutX="34.0" layoutY="101.0" prefHeight="29.0" prefWidth="198.0" promptText="Customer Name" unFocusColor="#4059a9">
+                    <font>
+                        <Font name="System Bold" size="13.0" />
+                    </font>
+                </JFXTextField>
+                <JFXTextField fx:id="Addresstxt" labelFloat="true" layoutX="35.0" layoutY="166.0" prefHeight="29.0" prefWidth="198.0" promptText="Customer Address" unFocusColor="#4059a9">
+                    <font>
+                        <Font name="System Bold" size="13.0" />
+                    </font>
+                </JFXTextField>
+                <JFXTextField fx:id="Contacttxt" labelFloat="true" layoutX="34.0" layoutY="227.0" prefHeight="29.0" prefWidth="198.0" promptText="Contact Number" unFocusColor="#4059a9">
+                    <font>
+                        <Font name="System Bold" size="13.0" />
+                    </font>
+                </JFXTextField>
+                <JFXTextField fx:id="IDtxt" editable="false" labelFloat="true" layoutX="34.0" layoutY="39.0" prefHeight="29.0" prefWidth="198.0" promptText="Customer ID" unFocusColor="#4059a9">
+                    <font>
+                        <Font name="System Bold" size="13.0" />
+                    </font>
+                </JFXTextField>
+            </children>
+            <effect>
+                <DropShadow color="#867676" />
+            </effect>
+        </AnchorPane>
+        <Button layoutX="851.0" layoutY="545.0" mnemonicParsing="false" onAction="#UpdateOnAction" prefHeight="42.0" prefWidth="155.0" styleClass="btn" text="Update Customer">
+            <cursor>
+                <Cursor fx:constant="HAND" />
+            </cursor>
+        </Button>
+        <Separator layoutX="24.0" layoutY="196.0" prefHeight="8.0" prefWidth="514.0">
+            <effect>
+                <DropShadow color="#3337f8" />
+            </effect>
+        </Separator>
+    </children>
+</AnchorPane>
