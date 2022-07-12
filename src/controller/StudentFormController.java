@@ -6,6 +6,8 @@ import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -88,10 +90,57 @@ public class StudentFormController {
     public void textFields_Key_Released(KeyEvent keyEvent) {
     }
 
-    public void SearchStudent(KeyEvent keyEvent) {
+    public void SearchStudent(KeyEvent keyEvent) throws SQLException, ClassNotFoundException {
+        ObservableList<Student> obList = FXCollections.observableArrayList();
+        ResultSet result = CrudUtil.execute("SELECT student_ID,student_Name,email,contact,address,nic FROM student");
+
+        try {
+            while (result.next()) {
+                obList.add(new Student(
+                        result.getString(1),
+                        result.getString(2),
+                        result.getString(3),
+                        result.getString(4),
+                        result.getString(5),
+                        result.getString(6)
+                ));
+            }
+            FilteredList<Student> filterData = new FilteredList<>(obList, e -> true);
+
+            txtSearch.textProperty().addListener((observable, oldValue, newValue) -> {
+                filterData.setPredicate(Student -> {
+                    if (newValue.isEmpty() || newValue == null) {
+                        return true;
+                    }
+                    String searchStudent = newValue.toLowerCase();
+                    if (Student.getStudent_ID().toLowerCase().indexOf(searchStudent) > -1) {
+                        return true;
+                    } else if (Student.getStudent_Name().toLowerCase().indexOf(searchStudent) > -1) {
+                        return true;
+                    } else if (Student.getContact().toLowerCase().indexOf(searchStudent) > -1) {
+                        return true;
+                    } else if (Student.getAddress().toLowerCase().indexOf(searchStudent) > -1) {
+                        return true;
+                    } else if (Student.getNic().toLowerCase().indexOf(searchStudent) > -1) {
+                        return true;
+                    } else {
+                        return false;   // not found match values.
+                    }
+                });
+            });
+
+            SortedList<Student> sortedData = new SortedList<>(filterData);
+            sortedData.comparatorProperty().bind(tblStudent.comparatorProperty());
+            tblStudent.setItems(sortedData);
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
+        }
     }
 
-    public void btnRefresh(MouseEvent mouseEvent) {
+        public void btnRefresh(MouseEvent mouseEvent) {
+
     }
 
     public void btnSaveOnAction(ActionEvent actionEvent) {
