@@ -1,16 +1,22 @@
 package controller;
 
 import com.jfoenix.controls.JFXTextField;
+import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
+import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
+import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
 import model.Student;
 import util.CrudUtil;
 
@@ -39,6 +45,13 @@ public class StudentFormController {
     public TextField txtNic;
 
     public void initialize(){
+        colID.setCellValueFactory(new PropertyValueFactory<>("student_ID"));
+        colName.setCellValueFactory(new PropertyValueFactory<>("student_Name"));
+        colEmail.setCellValueFactory(new PropertyValueFactory<>("email"));
+        colContact.setCellValueFactory(new PropertyValueFactory<>("contact"));
+        colAddress.setCellValueFactory(new PropertyValueFactory<>("address"));
+        colNIC.setCellValueFactory(new PropertyValueFactory<>("nic"));
+
         try {
             loadAllStudents();
         } catch (SQLException e) {
@@ -53,6 +66,17 @@ public class StudentFormController {
         obList.clear();
         ResultSet result = CrudUtil.execute("SELECT * FROM student ORDER BY student_ID ASC");
 
+        while(result.next()){
+            obList.add(new Student(
+                    result.getString("student_ID"),
+                    result.getString("student_Name"),
+                    result.getString("email"),
+                    result.getString("contact"),
+                    result.getString("address"),
+                    result.getString("nic")
+                    ));
+        }
+        tblStudent.setItems(obList);
     }
 
     public void UpdateOnAction(ActionEvent actionEvent) {
