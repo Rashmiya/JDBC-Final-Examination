@@ -50,11 +50,16 @@ public class StudentFormController {
     public void initialize(){
         colModify.setCellValueFactory((param) -> {
             FontAwesomeIconView deleteIcon = new FontAwesomeIconView(FontAwesomeIcon.TRASH);
-
+            FontAwesomeIconView editIcon = new FontAwesomeIconView(FontAwesomeIcon.PENCIL);
             deleteIcon.setStyle(
                     "-fx-cursor:hand;"
                             +"-glyph-size:25px;"
                             +"-fx-fill:#ff1744;"
+            );
+            editIcon.setStyle(
+                    "-fx-cursor:hand;"
+                            +"-glyph-size:25px;"
+                            +"-fx-fill:#44BD32;"
             );
             deleteIcon.setOnMouseClicked((MouseEvent event)-> {
                         btnDelete.setVisible(true);
@@ -70,9 +75,19 @@ public class StudentFormController {
                         txtNic.setText(S.getNic());
                     }
             );
+
+            editIcon.setOnMouseClicked((MouseEvent event)->{
+                Student s = tblStudent.getSelectionModel().getSelectedItem();
+                txtID.setText(s.getStudent_ID());
+                txtName.setText(s.getStudent_Name());
+                txtEmail.setText(s.getEmail());
+                txtContact.setText(s.getContact());
+                txtAddress.setText(s.getAddress());
+                txtNic.setText(s.getNic());
+            });
            /* HBox.setMargin(editIcon, new Insets(0,0,0,10));
 */
-            return new ReadOnlyObjectWrapper(new HBox(20, deleteIcon));
+            return new ReadOnlyObjectWrapper(new HBox(20,editIcon, deleteIcon));
         });
 
         colID.setCellValueFactory(new PropertyValueFactory<>("student_ID"));
@@ -110,6 +125,30 @@ public class StudentFormController {
     }
 
     public void UpdateOnAction(ActionEvent actionEvent) {
+        Student s = new Student(txtID.getText(),txtName.getText(),txtEmail.getText(),txtContact.getText(),txtAddress.getText(),txtNic.getText());
+
+        try {
+            boolean isUpdated = CrudUtil.execute("UPDATE student SET student_Name=?, email=?, contact=?, address=?, nic=? WHERE student_ID=?",
+                    s.getStudent_Name(),s.getEmail(),s.getContact(),s.getAddress(),s.getNic(),s.getStudent_ID());
+            if(isUpdated){
+                Notifications notify = Notifications.create();
+                notify.title("Student Updated !");
+                notify.text(" You Successfully Updated a Student !");
+                notify.graphic(null);
+                notify.hideAfter(Duration.seconds(7));
+                notify.position(Pos.BOTTOM_RIGHT);
+                notify.showConfirm();
+
+                loadAllStudents();
+            }else{
+                new Alert(Alert.AlertType.WARNING, "Something went Wrong.Please Try Again !").show();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+            new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
+        }
     }
 
     public void DeleteOnAction(ActionEvent actionEvent) {
