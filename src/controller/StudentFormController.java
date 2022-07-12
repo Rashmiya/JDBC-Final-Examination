@@ -9,7 +9,6 @@ import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
-import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -46,27 +45,33 @@ public class StudentFormController {
     public Button btnUpdate;
     public TextField txtAddress;
     public TextField txtNic;
+    private String studentID;
 
-    public void initialize(){
+    public void initialize() {
+        btnUpdate.setDisable(true);
+        btnDelete.setDisable(true);
+
+        setStudentID();
+
         colModify.setCellValueFactory((param) -> {
             FontAwesomeIconView deleteIcon = new FontAwesomeIconView(FontAwesomeIcon.TRASH);
             FontAwesomeIconView editIcon = new FontAwesomeIconView(FontAwesomeIcon.PENCIL);
             deleteIcon.setStyle(
                     "-fx-cursor:hand;"
-                            +"-glyph-size:25px;"
-                            +"-fx-fill:#ff1744;"
+                            + "-glyph-size:25px;"
+                            + "-fx-fill:#ff1744;"
             );
             editIcon.setStyle(
                     "-fx-cursor:hand;"
-                            +"-glyph-size:25px;"
-                            +"-fx-fill:#44BD32;"
+                            + "-glyph-size:25px;"
+                            + "-fx-fill:#44BD32;"
             );
-            deleteIcon.setOnMouseClicked((MouseEvent event)-> {
+            deleteIcon.setOnMouseClicked((MouseEvent event) -> {
                         btnDelete.setVisible(true);
                         btnSave.setDisable(true);
                         btnUpdate.setDisable(true);
 
-                        Student S =  tblStudent.getSelectionModel().getSelectedItem();
+                        Student S = tblStudent.getSelectionModel().getSelectedItem();
                         txtID.setText(S.getStudent_ID());
                         txtName.setText(S.getStudent_Name());
                         txtEmail.setText(S.getEmail());
@@ -76,7 +81,7 @@ public class StudentFormController {
                     }
             );
 
-            editIcon.setOnMouseClicked((MouseEvent event)->{
+            editIcon.setOnMouseClicked((MouseEvent event) -> {
                 Student s = tblStudent.getSelectionModel().getSelectedItem();
                 txtID.setText(s.getStudent_ID());
                 txtName.setText(s.getStudent_Name());
@@ -85,9 +90,9 @@ public class StudentFormController {
                 txtAddress.setText(s.getAddress());
                 txtNic.setText(s.getNic());
             });
-           /* HBox.setMargin(editIcon, new Insets(0,0,0,10));
-*/
-            return new ReadOnlyObjectWrapper(new HBox(20,editIcon, deleteIcon));
+            /* HBox.setMargin(editIcon, new Insets(0,0,0,10));
+             */
+            return new ReadOnlyObjectWrapper(new HBox(20, editIcon, deleteIcon));
         });
 
         colID.setCellValueFactory(new PropertyValueFactory<>("student_ID"));
@@ -111,7 +116,7 @@ public class StudentFormController {
         obList.clear();
         ResultSet result = CrudUtil.execute("SELECT * FROM student ORDER BY student_ID ASC");
 
-        while(result.next()){
+        while (result.next()) {
             obList.add(new Student(
                     result.getString("student_ID"),
                     result.getString("student_Name"),
@@ -119,18 +124,18 @@ public class StudentFormController {
                     result.getString("contact"),
                     result.getString("address"),
                     result.getString("nic")
-                    ));
+            ));
         }
         tblStudent.setItems(obList);
     }
 
     public void UpdateOnAction(ActionEvent actionEvent) {
-        Student s = new Student(txtID.getText(),txtName.getText(),txtEmail.getText(),txtContact.getText(),txtAddress.getText(),txtNic.getText());
+        Student s = new Student(txtID.getText(), txtName.getText(), txtEmail.getText(), txtContact.getText(), txtAddress.getText(), txtNic.getText());
 
         try {
             boolean isUpdated = CrudUtil.execute("UPDATE student SET student_Name=?, email=?, contact=?, address=?, nic=? WHERE student_ID=?",
-                    s.getStudent_Name(),s.getEmail(),s.getContact(),s.getAddress(),s.getNic(),s.getStudent_ID());
-            if(isUpdated){
+                    s.getStudent_Name(), s.getEmail(), s.getContact(), s.getAddress(), s.getNic(), s.getStudent_ID());
+            if (isUpdated) {
                 Notifications notify = Notifications.create();
                 notify.title("Student Updated !");
                 notify.text(" You Successfully Updated a Student !");
@@ -140,7 +145,7 @@ public class StudentFormController {
                 notify.showConfirm();
 
                 loadAllStudents();
-            }else{
+            } else {
                 new Alert(Alert.AlertType.WARNING, "Something went Wrong.Please Try Again !").show();
             }
         } catch (SQLException e) {
@@ -159,7 +164,7 @@ public class StudentFormController {
             alert.setContentText("Are you sure to Delete?");
             Optional<ButtonType> action = alert.showAndWait();
 
-            if(action.get() == ButtonType.OK) {
+            if (action.get() == ButtonType.OK) {
                 boolean isDeleted = CrudUtil.execute("DELETE FROM student WHERE student_ID = ?", txtID.getText());
                 if (isDeleted) {
                     Notifications notify = Notifications.create();
@@ -176,7 +181,7 @@ public class StudentFormController {
                     new Alert(Alert.AlertType.ERROR, "Something Went Wrong ! , Please Try Again...");
                 }
             }
-        }catch (SQLException | ClassNotFoundException e){
+        } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();
             new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
         }
@@ -234,19 +239,19 @@ public class StudentFormController {
         }
     }
 
-        public void btnRefresh(MouseEvent mouseEvent) {
+    public void btnRefresh(MouseEvent mouseEvent) {
 
     }
 
     public void btnSaveOnAction(ActionEvent actionEvent) {
         Student student = new Student(
-                txtID.getText(),txtName.getText(),txtEmail.getText(),txtContact.getText(),txtAddress.getText(),txtNic.getText()
+                txtID.getText(), txtName.getText(), txtEmail.getText(), txtContact.getText(), txtAddress.getText(), txtNic.getText()
         );
-        try{
+        try {
             boolean effectedRowCount = CrudUtil.execute("INSERT INTO student VALUES (?,?,?,?,?,?)",
-                    student.getStudent_ID(),student.getStudent_Name(), student.getEmail(), student.getContact(),student.getAddress(),student.getNic()
+                    student.getStudent_ID(), student.getStudent_Name(), student.getEmail(), student.getContact(), student.getAddress(), student.getNic()
             );
-            if(effectedRowCount){
+            if (effectedRowCount) {
                 Notifications notify = Notifications.create();
                 notify.title("Student Added !");
                 notify.text(" You Successfully Added Student.");
@@ -256,10 +261,31 @@ public class StudentFormController {
                 notify.showConfirm();
 
                 loadAllStudents();
+                clearFields();
             }
         } catch (ClassNotFoundException | SQLException e) {
             e.printStackTrace();
             new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
+        }
+    }
+
+    private void clearFields() {
+        setStudentID();
+        txtName.clear();
+        txtEmail.clear();
+        txtContact.clear();
+        txtAddress.clear();
+        txtNic.clear();
+    }
+
+    private void setStudentID() {
+        try {
+            studentID = StudentCrudController.getStudentID(1);
+            txtID.setText(studentID);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
         }
     }
 }
